@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: shared-volumes
+  namespace: digital-twin
+data:
+  efs-frontend: "1234A"
+  efs-backend: "1234B"

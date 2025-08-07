@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: weave-gitops
+  namespace: flux-system
+spec:
+  url: https://github.com/weaveworks/weave-gitops.git
+  interval: 1h
+  ref:
+    tag: v0.38.0

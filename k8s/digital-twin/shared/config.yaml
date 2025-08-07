@@ -1,0 +1,34 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: shared-config
+  namespace: digital-twin
+data:
+  # Base URL
+  BASE_API_URL: "https://api-inno-dev-internal.viviane.biocontinuum-innovation.com"
+  BASE_API_SECURE_URL: "https://api-inno-dev.viviane.biocontinuum-innovation.com"
+
+  # Common URL
+  VIVIANE_BASE_API_URL: "$(BASE_API_URL)/api/core"
+  VIVIANE_UPLOAD_URL: "$(BASE_API_URL)api/core/file/upload"
+  VIVIANE_DOWNLOAD_URL: "$(BASE_API_URL)/api/core/file/downloads"
+  VIVIANE_SPARQL_URL: "$(BASE_API_URL)/sparql"
+  VIVIANE_BASE_API_SECURE_URL: "$(BASE_API_URL)/api/core"
+  VIVIANE_COMPOSITE_BASE_API_URL: "$(BASE_API_URL)/api/composite-model-catalog"
+
+  # Postgres
+  VIVIANE_POSTGRES_HOST: "dtcatalog-db-postgresql"
+  VIVIANE_POSTGRES_DATABASE: "viviane"
+  VIVIANE_POSTGRES_PORT: "5432"
+  VIVIANE_POSTGRES_USERNAME: "postgres"
+
+  # Redis
+  VIVIANE_REDIS_HOST: "redis-master"
+  VIVIANE_REDIS_PORT: "6379"
+
+  # Jaeger
+  JAEGER_PROPAGATION: 'jaeger,b3,w3c'
+
+  # Audit trail
+  VIVIANE__AUDIT_TOPIC_NAME: "auditum_primary_topic"
+  VIVIANE__AUDIT_PROJECT_ID: "018fe252-ee76-7148-b7bc-5e5b2fffc4bb"

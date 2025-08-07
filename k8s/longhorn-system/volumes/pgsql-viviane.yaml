@@ -1,0 +1,11 @@
+apiVersion: longhorn.io/v1beta2
+kind: Volume
+metadata:
+  name: pgsql-viviane
+  namespace: longhorn-system
+spec:
+  size: "8589934592" # 8 Go
+  numberOfReplicas: 1
+  accessMode: rwx
+  frontend: blockdev
+  dataLocality: disabled

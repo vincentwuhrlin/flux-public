@@ -1,0 +1,22 @@
+# https://github.com/weaveworks/weave-gitops/blob/main/charts/gitops-server/README.md
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: weave-gitops
+  namespace: flux-system
+spec:
+  releaseName: weave-gitops
+  chart:
+    spec:
+      chart: ./charts/gitops-server
+      version: "4.0.36"
+      sourceRef:
+        kind: GitRepository
+        name: weave-gitops
+        namespace: flux-system
+  interval: 5m
+  values:
+    adminUser:
+      create: true
+      username: admin
+      createSecret: false

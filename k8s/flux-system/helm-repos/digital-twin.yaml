@@ -1,0 +1,29 @@
+# Application
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: digital-twin-application
+  namespace: flux-system
+spec:
+  url: ${DIGITAL_TWIN_HELP_REPO_URL}
+  interval: ${DIGITAL_TWIN_HELP_REPO_INTERVAL}
+  secretRef:
+   name: aws-ecr
+  ref:
+    semver: ">= 0.0.0-0"
+    semverFilter: ".*-application$"
+---
+# Helloworld
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: digital-twin-helloworld
+  namespace: flux-system
+spec:
+  url: ${DIGITAL_TWIN_HELP_REPO_URL}
+  interval: ${DIGITAL_TWIN_HELP_REPO_INTERVAL}
+  secretRef:
+    name: aws-ecr
+  ref:
+    semver: ">= 0.0.0-0"
+    semverFilter: ".*-helloworld$"

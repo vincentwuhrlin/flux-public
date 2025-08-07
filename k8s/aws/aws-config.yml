@@ -1,0 +1,31 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: aws-config
+  namespace: aws
+data:
+  AWS_DEFAULT_REGION: "eu-central-1"
+  AWS_ECR_SERVER: "717206073145.dkr.ecr.eu-central-1.amazonaws.com"
+  AWS_ECR_SECRET_NAMESPACE: "flux-system"
+  AWS_ECR_SECRET_NAME: "aws-ecr"
+
+  ecr-update.sh: |
+    #!/bin/sh
+    
+    # Generate token
+    TOKEN=$(aws ecr get-login-password)
+    
+    # Update Docker registry secret if exist
+    if kubectl get secret "${AWS_ECR_SECRET_NAME}" -n "${AWS_ECR_SECRET_NAMESPACE}" >/dev/null 2>&1; then
+      kubectl patch secret "${AWS_ECR_SECRET_NAME}" -n "${AWS_ECR_SECRET_NAMESPACE}" \
+        --type='json' \
+        -p='[{"op": "replace", "path": "/data/.dockerconfigjson", "value":"'$(echo '{"auths":{"'"${AWS_ECR_SERVER}"'":{"username":"AWS","password":"'$TOKEN'","auth":"'$(echo -n AWS:$TOKEN | base64 -w 0)'"}}}'| base64 -w 0)'"}]'
+
+    # Create Docker registry secret if not exist                                          
+    else
+      kubectl create secret docker-registry "${AWS_ECR_SECRET_NAME}" \
+        --docker-server="${AWS_ECR_SERVER}" \
+        --docker-username=AWS \
+        --docker-password=$TOKEN \
+        --namespace="${AWS_ECR_SECRET_NAMESPACE}"
+    fi

@@ -1,0 +1,41 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: podinfo
+  namespace: digital-twin
+spec:
+  releaseName: podinfo
+  chart:
+    spec:
+      chart: podinfo
+      version: ">=6.0.0 <7.0.0"   # plage semver que Flux surveillera
+      sourceRef:
+        kind: HelmRepository
+        name: podinfo
+        namespace: digital-twin
+  interval: 5m
+
+#  forceUpgrade: true
+
+
+  #    repository: https://stefanprodan.github.io/podinfo
+ #   name: podinfo
+  #  version: 6.9.0
+
+  # values:
+  #   watchNamespaces:
+  #     - production
+  #   affinity:
+  #     nodeAffinity:
+  #       requiredDuringSchedulingIgnoredDuringExecution:
+  #         nodeSelectorTerms:
+  #           - matchExpressions:
+  #               - key: pool
+  #                 operator: In
+  #                 values:
+  #                   - database
+  #   tolerations:
+  #     - key: database
+  #       operator: Equal
+  #       value: "true"
+  #       effect: "NoSchedule"

@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: helm-config
+  namespace: flux-system
+data:
+  DIGITAL_TWIN_HELP_REPO_URL: "oci://717206073145.dkr.ecr.eu-central-1.amazonaws.com/digital-twin"
+  DIGITAL_TWIN_HELP_REPO_INTERVAL: "5m"

@@ -1,0 +1,16 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: helloworld
+  namespace: digital-twin
+spec:
+  releaseName: helloworld
+  chart:
+    spec:
+      chart: digital-twin
+      version: 0.0.1-helloworld   # plage semver que Flux surveillera
+      sourceRef:
+        kind: HelmRepository
+        name: digital-twin
+        namespace: digital-twin
+  interval: 5m

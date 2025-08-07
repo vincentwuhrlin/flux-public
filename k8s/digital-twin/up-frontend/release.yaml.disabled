@@ -1,0 +1,23 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: up-frontend
+  namespace: digital-twin
+spec:
+  releaseName: application
+  chart:
+    spec:
+      chart: digital-twin
+      version: 0.0.1-application
+      sourceRef:
+        kind: HelmRepository
+        name: digital-twin
+        namespace: flux-system
+  interval: 5m
+  # TODO
+  values: {}
+  valuesFrom:
+    - kind: ConfigMap
+      name: shared-volumes
+      valuesKey: efs-frontend
+      targetPath: volumes[0].volumeHandle

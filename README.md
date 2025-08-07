@@ -1,2 +1,0 @@
-# flux-public
-Test flux

@@ -1,0 +1,34 @@
+# AWS init job for creating AWS ECR credentials at cluster init
+# Not that AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY are not necessary,
+# but EC2 instances must have IAM Role "inno-dev-developer"
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: aws
+  name: aws-cron
+spec:
+  schedule: "0 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: aws-service-account
+          restartPolicy: OnFailure
+          containers:
+            - name: aws-cron
+              image: vaggeliskls/aws-kubectl:latest
+              envFrom:
+                - configMapRef:
+                    name: aws-config
+              command: [ "/bin/sh", "-c", "/scripts/ecr-update.sh" ]
+              volumeMounts:
+                - name: script
+                  mountPath: /scripts
+          volumes:
+            - name: script
+              configMap:
+                name: aws-config
+                defaultMode: 0777

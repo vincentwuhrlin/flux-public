@@ -1,0 +1,49 @@
+# https://github.com/bitnami/charts/tree/main/bitnami/postgresql
+
+# dtcatalog-db-postgresql
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: postgres-dtcatalog
+  namespace: digital-twin
+spec:
+  releaseName: postgres
+  chart:
+    spec:
+      chart: postgresql
+      version: "16.7.17"
+      sourceRef:
+        kind: OCIRepository
+        name: bitnami
+        namespace: flux-system
+  interval: 5m
+  values:
+    fullnameOverride: "dtcatalog-db-postgresql"
+    architecture: "standalone"
+    auth:
+      enablePostgresUser: true
+      username: "postgres"
+      postgresPassword: "demo!2023"
+      password: "demo!2023"
+      database: postgres
+    primary:
+      persistence:
+        enabled: true
+        existingClaim: "data-postgresql-0"
+      resources:
+        limits:
+          cpu: "250m"
+          memory: "250Mi"
+        requests:
+          cpu: "250m"
+          memory: "250Mi"
+
+#
+#          env:
+#            - name: PGDATA
+#              value: /var/lib/postgresql/data3/pgdata
+
+#          envFrom:
+#            - configMapRef:
+#                name: postgres-config

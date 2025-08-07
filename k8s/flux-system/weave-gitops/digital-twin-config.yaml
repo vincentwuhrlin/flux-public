@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: digital-twin-config
+  namespace: flux-system
+data:
+  URL: "oci://717206073145.dkr.ecr.eu-central-1.amazonaws.com/digital-twin"
+  INTERVAL: "5m"
